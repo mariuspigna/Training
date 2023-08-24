@@ -1,32 +1,34 @@
 package com.example.training.service;
 
 import com.example.training.model.Student;
+import com.example.training.repository.FurnitureRepository;
 import com.example.training.repository.StudentRepository;
-import com.example.training.repository.SchoolSuppliesRepository;
-import com.example.training.util.Util;
+import com.example.training.util.StudentUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public record StudentService(StudentRepository studentRepository, SchoolSuppliesRepository schoolSuppliesRepository, Util util) {
-	public List<Student> getAllStudents(){
-		return studentRepository.findAll();
-	}
-	public Optional<Student> getStudentById(Long studentId){
-		util.checkStudentExist(studentId);
-		return studentRepository.findById(studentId);
-	}
-	public void deleteStudentById(Long studentId) {
-		util.checkStudentExist(studentId);
-		studentRepository.deleteById(studentId);
+public record StudentService(StudentRepository studentRepository, FurnitureRepository furnitureRepository, StudentUtil studentUtil) {
+	public void createNewStudent(Student student) {
+		studentRepository.save(student);
 	}
 
-	public void deleteAllSTudents() {
-		studentRepository.deleteAll();
+	public Student readStudentById(Long studentId) {
+		Student student = studentUtil.checkStudentById(studentId);
+		return student;
 	}
-	public void createStudent(Student student) {
-		studentRepository.save(student);
+
+	public List<Student> readAllStudent() {
+		return studentRepository.findAll();
+	}
+
+	public void deleteStudentById(Long studentId) {
+		Student student = studentUtil.checkStudentById(studentId);
+		studentRepository.deleteById(student.getId());
+	}
+
+	public void deleteAllStudent() {
+		studentRepository.deleteAll();
 	}
 }

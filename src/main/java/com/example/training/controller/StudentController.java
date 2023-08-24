@@ -5,30 +5,28 @@ import com.example.training.service.StudentService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/v1/training/student")
 public record StudentController(StudentService studentService) {
-
 	@PostMapping
-	public void createStudent(@RequestBody Student student){
-		studentService.createStudent(student);
+	public void createNewStudent(@RequestBody Student student){
+		studentService.createNewStudent(student);
 	}
 	@GetMapping(path = "{studentId}")
-	public Optional<Student> getStudentById(@PathVariable Long studentId){
-		return studentService.getStudentById(studentId);
+	public Student readStudentById(@PathVariable Long studentId){
+		return studentService.readStudentById(studentId);
 	}
 	@GetMapping
-	public List<Student> getAllStudents(){
-		return studentService.getAllStudents();
+	public List<Student> readAllStudent(){
+		return studentService.readAllStudent();
 	}
 	@DeleteMapping(path = "{studentId}")
 	public void deleteStudentById(@PathVariable Long studentId){
 		studentService.deleteStudentById(studentId);
 	}
 	@DeleteMapping
-	public void deleteAllStudents(){
-		studentService.deleteAllSTudents();
+	public void deleteAllStudent(){
+		studentService.deleteAllStudent();
 	}
 }

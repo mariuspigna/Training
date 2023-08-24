@@ -2,7 +2,8 @@ package com.example.training.repository;
 
 import com.example.training.model.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-@org.springframework.stereotype.Repository
+@Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
 }

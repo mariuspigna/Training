@@ -11,41 +11,41 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @RequiredArgsConstructor
-@Entity(name = "student")
+@Entity
 @Table(uniqueConstraints = @UniqueConstraint(
-		name = "email_unique", columnNames = "email"
+		name = "unique_email",
+		columnNames = "email"
 ))
 public class Student {
 	@Id
 	@SequenceGenerator(
 			name = "student_sequence",
 			sequenceName = "student_sequence",
-			allocationSize = 1)
-	@GeneratedValue(
-			strategy=GenerationType.SEQUENCE,
-			generator = "student_sequence"
+			allocationSize = 1
 	)
-	@Column(updatable = false)
+	@GeneratedValue(
+			generator = "student_sequence",
+			strategy = GenerationType.SEQUENCE
+	)
+	@Column(nullable = false)
 	private Long id;
 	@NonNull
-	@Column(columnDefinition = "TEXT", updatable = true)
-	private String firstName;
-	@NonNull
-	@Column(columnDefinition = "TEXT", updatable = true)
+	@Column(columnDefinition = "TEXT")
 	private String lastName;
 	@NonNull
-	@Column(columnDefinition = "TEXT", updatable = true)
-	private String email;
+	@Column(columnDefinition = "TEXT")
+	private String firstName;
 	@NonNull
 	@Column(columnDefinition = "date")
 	private LocalDate dob;
+	@NonNull
+	@Column(columnDefinition = "TEXT")
+	private String email;
 	@Transient
 	private Integer age;
-	@NonNull
-	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-	@JoinColumn(name = "ss_fk", referencedColumnName = "id", nullable = false)
-	private List<SchoolSupplies> schoolSupplies;
-
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "sf_fk", referencedColumnName = "id")
+	private List<Furniture> furnitureList;
 	public Integer getAge() {
 		return Period.between(this.dob,LocalDate.now()).getYears();
 	}
