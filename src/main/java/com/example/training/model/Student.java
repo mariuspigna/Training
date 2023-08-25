@@ -43,7 +43,7 @@ public class Student {
 	private String email;
 	@Transient
 	private Integer age;
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "sf_fk", referencedColumnName = "id")
 	private List<Furniture> furnitureList;
 	public Integer getAge() {

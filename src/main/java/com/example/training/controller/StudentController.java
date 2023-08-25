@@ -1,5 +1,6 @@
 package com.example.training.controller;
 
+import com.example.training.dto.StudentDTO;
 import com.example.training.model.Student;
 import com.example.training.service.StudentService;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +15,11 @@ public record StudentController(StudentService studentService) {
 		studentService.createNewStudent(student);
 	}
 	@GetMapping(path = "{studentId}")
-	public Student readStudentById(@PathVariable Long studentId){
+	public StudentDTO readStudentById(@PathVariable Long studentId){
 		return studentService.readStudentById(studentId);
 	}
 	@GetMapping
-	public List<Student> readAllStudent(){
+	public List<StudentDTO> readAllStudent(){
 		return studentService.readAllStudent();
 	}
 	@DeleteMapping(path = "{studentId}")
