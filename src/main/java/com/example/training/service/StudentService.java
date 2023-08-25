@@ -22,9 +22,8 @@ public record StudentService(StudentRepository studentRepository,
 	}
 
 	public StudentDTO readStudentById(Long studentId) {
-		Student student = studentUtil.checkStudentById(studentId);
 		return studentRepository.findById(studentId).map(studentDTOMapper).orElseThrow(()->
-				new IllegalStateException("Student whith id id [%s] not found".formatted(studentId)));
+				new IllegalStateException("Student with id  [%s] not found".formatted(studentId)));
 	}
 
 	public List<StudentDTO> readAllStudent() {
