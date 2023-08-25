@@ -11,6 +11,7 @@ public record StudentDTO(Long id,
 						 String firstName,
 						 LocalDate dob,
 						 String email,
-						 Integer age) {
+						 Integer age,
+						 List<Furniture> furnitureList) {
 
 }

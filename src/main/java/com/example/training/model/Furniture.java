@@ -34,4 +34,5 @@ public class Furniture {
 	@ManyToOne
 	@JoinColumn(name = "student_id", nullable = false)
 	private Student student;
+
 }

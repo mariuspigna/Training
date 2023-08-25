@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Collection;
 import java.util.List;
 
 @Data
@@ -45,7 +46,7 @@ public class Student {
 	private Integer age;
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "sf_fk", referencedColumnName = "id")
-	private List<Furniture> furnitureList;
+	private Collection<Furniture> furnitureList;
 	public Integer getAge() {
 		return Period.between(this.dob,LocalDate.now()).getYears();
 	}

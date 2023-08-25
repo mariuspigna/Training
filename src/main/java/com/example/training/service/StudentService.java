@@ -6,7 +6,6 @@ import com.example.training.model.Student;
 import com.example.training.repository.FurnitureRepository;
 import com.example.training.repository.StudentRepository;
 import com.example.training.util.StudentUtil;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
