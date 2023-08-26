@@ -11,23 +11,25 @@ import java.util.List;
 @RequestMapping(path = "api/v1/training/student")
 public record StudentController(StudentService studentService) {
 	@PostMapping
-	public void createNewStudent(@RequestBody Student student){
-		studentService.createNewStudent(student);
+	public void createStudent(@RequestBody Student student){
+		studentService.createStudent(student);
 	}
 	@GetMapping(path = "{studentId}")
-	public StudentDTO readStudentById(@PathVariable Long studentId){
-		return studentService.readStudentById(studentId);
+	public StudentDTO getStudentById(@PathVariable Long studentId){
+		return studentService.getStudentById(studentId);
 	}
 	@GetMapping
-	public List<StudentDTO> readAllStudent(){
-		return studentService.readAllStudent();
-	}
-	@DeleteMapping(path = "{studentId}")
-	public void deleteStudentById(@PathVariable Long studentId){
-		studentService.deleteStudentById(studentId);
+	public List<StudentDTO> getStudentAllStudents(){
+		return studentService.getStudentAllStudents();
 	}
 	@DeleteMapping
-	public void deleteAllStudent(){
-		studentService.deleteAllStudent();
+	public void delStudentAllStudents(){
+		studentService.delStudentAllStudents();
 	}
+	@DeleteMapping(path = "{studentId}")
+	public void delStudentById(@PathVariable Long studentId){
+
+		 studentService.delStudentById(studentId);
+	}
+
 }

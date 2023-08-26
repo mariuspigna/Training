@@ -5,19 +5,16 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Collection;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @RequiredArgsConstructor
-@Entity
-@Table(uniqueConstraints = @UniqueConstraint(
-		name = "unique_email",
-		columnNames = "email"
-))
+@Entity(name = "student")
+@Table(uniqueConstraints = @UniqueConstraint(name = "email_unique", columnNames = "email"))
 public class Student {
+
 	@Id
 	@SequenceGenerator(
 			name = "student_sequence",
@@ -28,25 +25,28 @@ public class Student {
 			generator = "student_sequence",
 			strategy = GenerationType.SEQUENCE
 	)
-	@Column(nullable = false)
+	@Column(updatable = false)
+	@NonNull
 	private Long id;
-	@NonNull
 	@Column(columnDefinition = "TEXT")
+	@NonNull
 	private String lastName;
-	@NonNull
 	@Column(columnDefinition = "TEXT")
+	@NonNull
 	private String firstName;
-	@NonNull
-	@Column(columnDefinition = "date")
-	private LocalDate dob;
-	@NonNull
 	@Column(columnDefinition = "TEXT")
+	@NonNull
 	private String email;
+	@Column(columnDefinition = "TEXT")
+	@NonNull
+	private LocalDate dob;
+	@Column(columnDefinition = "bigint")
 	@Transient
 	private Integer age;
-	@OneToMany(targetEntity = Furniture.class,fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "sf_fk", referencedColumnName = "id")
-	private List<Furniture> furnitureList;
+	@OneToMany(targetEntity = Fourniture.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(referencedColumnName = "id", name = "sf_fk")
+	private List<Fourniture> fournitureList;
+
 	public Integer getAge() {
 		return Period.between(this.dob,LocalDate.now()).getYears();
 	}

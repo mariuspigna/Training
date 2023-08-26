@@ -7,29 +7,30 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @RequiredArgsConstructor
-@Entity
+@Entity(name = "fourniture")
 @Table
-public class Furniture {
+public class Fourniture {
+
 	@Id
 	@SequenceGenerator(
-			name = "furniture_sequence",
-			sequenceName = "furniture_sequence",
+			name = "fourniture_sequence",
+			sequenceName = "fourniture_sequence",
 			allocationSize = 1
 	)
 	@GeneratedValue(
-			strategy = GenerationType.SEQUENCE,
-			generator = "furniture_sequence"
+			generator = "fourniture_sequence",
+			strategy = GenerationType.SEQUENCE
 	)
 	@Column(updatable = false)
 	private Long fId;
-	@NonNull
 	@Column(columnDefinition = "TEXT")
+	@NonNull
 	private String name;
-	@NonNull
 	@Column(columnDefinition = "bigint")
+	@NonNull
 	private Integer quantity;
-	@NonNull
 	@Column(columnDefinition = "bigint")
+	@NonNull
 	private Integer price;
 
 }
