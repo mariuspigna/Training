@@ -21,7 +21,7 @@ public class Furniture {
 			generator = "furniture_sequence"
 	)
 	@Column(updatable = false)
-	private Long id;
+	private Long fId;
 	@NonNull
 	@Column(columnDefinition = "TEXT")
 	private String name;
@@ -31,8 +31,5 @@ public class Furniture {
 	@NonNull
 	@Column(columnDefinition = "bigint")
 	private Integer price;
-	@ManyToOne
-	@JoinColumn(name = "student_id", nullable = false)
-	private Student student;
 
 }

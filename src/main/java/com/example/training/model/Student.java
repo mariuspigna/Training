@@ -44,9 +44,9 @@ public class Student {
 	private String email;
 	@Transient
 	private Integer age;
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	@OneToMany(targetEntity = Furniture.class,fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "sf_fk", referencedColumnName = "id")
-	private Collection<Furniture> furnitureList;
+	private List<Furniture> furnitureList;
 	public Integer getAge() {
 		return Period.between(this.dob,LocalDate.now()).getYears();
 	}
