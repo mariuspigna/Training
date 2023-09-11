@@ -33,29 +33,16 @@ public class SecurityConfiguration {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
-				.csrf()
-				.disable()
-				.authorizeHttpRequests()
-				.requestMatchers("/api/v1/training/student/auth/**")
-				.permitAll()
-				.anyRequest()
-				.authenticated()
-				.and()
-				.sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-				.and()
-				.authenticationProvider(authenticationProvider)
-				.addFilterBefore(jwtAthFilter, UsernamePasswordAuthenticationFilter.class);
-				/*.securityMatcher("**")
+				.securityMatcher("")
 				.authorizeHttpRequests((requests) -> {
 					((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)requests
-							.requestMatchers("/api/v1/training/student/auth/**")
+							.requestMatchers("/api/v1/**")
 							.permitAll()
 							.anyRequest())
 							.authenticated();
 				})
 				.authenticationProvider(authenticationProvider)
-				.addFilterBefore(jwtAthFilter, UsernamePasswordAuthenticationFilter.class);*/
+				.addFilterBefore(jwtAthFilter, UsernamePasswordAuthenticationFilter.class);
 		return http.build();
 	}
 }
