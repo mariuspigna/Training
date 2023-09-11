@@ -1,19 +1,22 @@
 package com.example.training.model;
 
+import com.example.training.role.Role;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDate;
-import java.time.Period;
+import java.util.Collection;
 import java.util.List;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@RequiredArgsConstructor
-@Entity(name = "student")
-@Table(uniqueConstraints = @UniqueConstraint(name = "email_unique", columnNames = "email"))
-public class Student {
+@Entity
+@Table(name = "student", uniqueConstraints = @UniqueConstraint(name = "email_unique", columnNames = "email"))
+public class Student implements UserDetails {
 
 	@Id
 	@SequenceGenerator(
@@ -26,28 +29,54 @@ public class Student {
 			strategy = GenerationType.SEQUENCE
 	)
 	@Column(updatable = false)
-	@NonNull
 	private Long id;
 	@Column(columnDefinition = "TEXT")
 	@NonNull
-	private String lastName;
+	private String firstname;
 	@Column(columnDefinition = "TEXT")
 	@NonNull
-	private String firstName;
+	private String lastname;
 	@Column(columnDefinition = "TEXT")
 	@NonNull
 	private String email;
-	@Column(columnDefinition = "TEXT")
+	@Column(columnDefinition = "TEXT", updatable = true)
 	@NonNull
-	private LocalDate dob;
-	@Column(columnDefinition = "bigint")
-	@Transient
-	private Integer age;
-	@OneToMany(targetEntity = Fourniture.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(referencedColumnName = "id", name = "sf_fk")
-	private List<Fourniture> fournitureList;
+	private String password;
 
-	public Integer getAge() {
-		return Period.between(this.dob,LocalDate.now()).getYears();
+	@Enumerated(EnumType.STRING)
+	private Role role;
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return List.of(new SimpleGrantedAuthority(role.name()));
+	}
+
+	@Override
+	public String getPassword() {
+		return password;
+	}
+
+	@Override
+	public String getUsername() {
+		return email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
 	}
 }

@@ -1,35 +1,16 @@
 package com.example.training.controller;
 
-import com.example.training.dto.StudentDTO;
-import com.example.training.model.Student;
-import com.example.training.service.StudentService;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "api/v1/training/student")
-public record StudentController(StudentService studentService) {
-	@PostMapping
-	public void createStudent(@RequestBody Student student){
-		studentService.createStudent(student);
-	}
-	@GetMapping(path = "{studentId}")
-	public StudentDTO getStudentById(@PathVariable Long studentId){
-		return studentService.getStudentById(studentId);
-	}
+@RequestMapping(path = "api/v1/training/demo-controller")
+public class StudentController {
+
 	@GetMapping
-	public List<StudentDTO> getStudentAllStudents(){
-		return studentService.getStudentAllStudents();
+	public ResponseEntity<String> sayHello(){
+		return ResponseEntity.ok("hello world from secured endpoint");
 	}
-	@DeleteMapping
-	public void delStudentAllStudents(){
-		studentService.delStudentAllStudents();
-	}
-	@DeleteMapping(path = "{studentId}")
-	public void delStudentById(@PathVariable Long studentId){
-
-		 studentService.delStudentById(studentId);
-	}
-
 }
