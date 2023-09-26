@@ -1,8 +1,8 @@
 package com.example.training.controller;
 
-import com.example.training.dto.AuthenticationRequest;
-import com.example.training.dto.AuthenticationResponse;
-import com.example.training.dto.RegisterRequest;
+import com.example.training.authRequestResponse.AuthenticationRequest;
+import com.example.training.authRequestResponse.AuthenticationResponse;
+import com.example.training.authRequestResponse.RegisterRequest;
 import com.example.training.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "api/v1/training/student/auth")
+@RequestMapping(path = "api/v1/training/student")
 @RequiredArgsConstructor
 public class AuthenticationController {
 

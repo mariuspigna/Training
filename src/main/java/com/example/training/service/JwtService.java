@@ -15,8 +15,6 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-	private String SECRET_KEY = "404E635266556A586E3272357538782F413F4428472B4B6250645367566";
-
 	public String extractUsername(String token) {
 		return extractClaim(token, Claims::getSubject);
 	}
@@ -24,7 +22,19 @@ public class JwtService {
 		final Claims claims = extractAllClaims(token);
 		return claimsResolver.apply(claims);
 	}
-
+	private Claims extractAllClaims(String token) {
+		return Jwts
+				.parserBuilder()
+				.setSigningKey(getSigninKey())
+				.build()
+				.parseClaimsJws(token)
+				.getBody();
+	}
+	private Key getSigninKey() {
+		String SECRET_KEY = "404E635266556A586E3272357538782F413F4428472B4B6250645367569";
+		byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+		return Keys.hmacShaKeyFor(keyBytes);
+	}
 	public String generateToken(UserDetails userDetails) {
 		return generateToken(new HashMap<>(), userDetails);
 	}
@@ -37,10 +47,8 @@ public class JwtService {
 				.builder()
 				.setClaims(extraClaims).
 				setSubject(userDetails.getUsername())
-				//.claim("authorities", userDetails.getAuthorities())
 				.setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + TimeUnit.HOURS.toMillis(24)))
-				//.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
 				.signWith(getSigninKey(),SignatureAlgorithm.HS256)
 				.compact();
 	}
@@ -54,21 +62,5 @@ public class JwtService {
 	public Date extractExpiration(String token) {
 		return extractClaim(token, Claims::getExpiration);
 	}
-	private Claims extractAllClaims(String token) {
-			Claims claims = Jwts
-					.parserBuilder()
-					.setSigningKey(getSigninKey())
-					.build()
-					.parseClaimsJws(token)
-					.getBody();
-			return claims;
-	}
-
-
-	private Key getSigninKey() {
-		byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
-		return Keys.hmacShaKeyFor(keyBytes);
-	}
-
 
 }

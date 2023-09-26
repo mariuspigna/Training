@@ -1,8 +1,8 @@
 package com.example.training.service;
 
-import com.example.training.dto.AuthenticationRequest;
-import com.example.training.dto.AuthenticationResponse;
-import com.example.training.dto.RegisterRequest;
+import com.example.training.authRequestResponse.AuthenticationRequest;
+import com.example.training.authRequestResponse.AuthenticationResponse;
+import com.example.training.authRequestResponse.RegisterRequest;
 import com.example.training.role.Role;
 import com.example.training.model.Student;
 import com.example.training.repository.StudentRepository;
@@ -27,6 +27,8 @@ public class AuthenticationService {
 				.lastname(request.getLastname())
 				.email(request.getEmail())
 				.password(passwordEncoder.encode(request.getPassword()))
+				.dob(request.getDob())
+				.fournitureList((request.getFournitureList()))
 				.role(Role.USER)
 				.build();
 		studentRepository.save(student);

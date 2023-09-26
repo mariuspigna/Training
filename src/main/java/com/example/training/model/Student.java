@@ -7,11 +7,13 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Collection;
 import java.util.List;
 
 @Data
-@Builder
+@Builder // For building Student inside AuthenticationService
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -39,10 +41,23 @@ public class Student implements UserDetails {
 	@Column(columnDefinition = "TEXT")
 	@NonNull
 	private String email;
-	@Column(columnDefinition = "TEXT", updatable = true)
+	@Column(columnDefinition = "TEXT")
 	@NonNull
 	private String password;
 
+	@Column(columnDefinition = "bigint")
+	@Transient
+	private Integer age;
+	@OneToMany(targetEntity = Fourniture.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(referencedColumnName = "id", name = "sf_fk")
+	private List<Fourniture> fournitureList;
+
+	@Column(columnDefinition = "TEXT")
+	@NonNull
+	private LocalDate dob;
+	public Integer getAge() {
+		return Period.between(this.dob,LocalDate.now()).getYears();
+	}
 	@Enumerated(EnumType.STRING)
 	private Role role;
 	@Override
@@ -51,7 +66,7 @@ public class Student implements UserDetails {
 	}
 
 	@Override
-	public String getPassword() {
+	public @NonNull String getPassword() {
 		return password;
 	}
 
