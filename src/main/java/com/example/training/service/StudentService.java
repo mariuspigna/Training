@@ -5,7 +5,7 @@ import com.example.training.dto.StudentDTO;
 import com.example.training.dto.StudentDTOMapper;
 import com.example.training.model.Student;
 import com.example.training.repository.StudentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,22 +13,20 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@AllArgsConstructor
 @Service
 public class StudentService {
-	private final StudentRepository studentRepository;
-	private final StudentUtil studentUtil;
-	private final StudentDTOMapper studentDTOMapper;
+	private  final StudentRepository studentRepository;
+	private  final StudentUtil studentUtil;
+	private  final StudentDTOMapper studentDTOMapper;
 
-	@Autowired
 
-	public StudentService(StudentRepository studentRepository, StudentUtil studentUtil, StudentDTOMapper studentDTOMapper) {
-		this.studentRepository = studentRepository;
-		this.studentUtil = studentUtil;
-		this.studentDTOMapper = studentDTOMapper;
-	}
 
-	public List<StudentDTO> getAllStudents() {
+	public List<StudentDTO> getAllStudentsDTO() {
 		return studentRepository.findAll().stream().map(studentDTOMapper).collect(Collectors.toList());
+	}
+	public List<Student> getAllStudents() {
+		return studentRepository.findAll();
 	}
 
 	public StudentDTO getStudentById(Long studentId) {
@@ -45,9 +43,14 @@ public class StudentService {
 		studentRepository.deleteById(student.getId());
 	}
 
-	/*public void createNewStudent(Student student) {
+	public void createNewStudent(Student student) throws IllegalStateException{
+		Boolean existsEmail = studentRepository.selectExistsEmail(student.getEmail());
+		if(existsEmail){
+			throw new IllegalStateException("Email %s is not uniq".formatted(student.getEmail()));
+		}
+
 		studentRepository.save(student);
-	}*/
+	}
 
 	@Transactional
 	public void updateStudent(Long studentId, String firstname, String lastname, String email, String password) {

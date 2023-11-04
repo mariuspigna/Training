@@ -50,11 +50,23 @@ public class Student implements UserDetails {
 	private Integer age;
 	@OneToMany(targetEntity = Fourniture.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(referencedColumnName = "id", name = "sf_fk")
+	@NonNull
 	private List<Fourniture> fournitureList;
 
 	@Column(columnDefinition = "TEXT")
 	@NonNull
 	private LocalDate dob;
+
+	public Student(@NonNull String firstname, @NonNull String lastname,
+				   @NonNull String email, @NonNull String password, @NonNull LocalDate dob) {
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.email = email;
+		this.password = password;
+		this.dob = dob;
+	}
+
+
 	public Integer getAge() {
 		return Period.between(this.dob,LocalDate.now()).getYears();
 	}

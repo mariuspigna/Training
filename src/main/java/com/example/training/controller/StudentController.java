@@ -1,6 +1,7 @@
 package com.example.training.controller;
 
 import com.example.training.dto.StudentDTO;
+import com.example.training.model.Student;
 import com.example.training.service.StudentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class StudentController{
 	}
 	@GetMapping
 	public List<StudentDTO> getAllStudents(){
-		return studentService.getAllStudents();
+		return studentService.getAllStudentsDTO();
 	}
 	@DeleteMapping
 	public void delAllStudents(){
@@ -46,5 +47,8 @@ public class StudentController{
 		studentService.updateStudent(studentId,firstname,lastname,email, password);
 
 		}
-
+	@PostMapping
+	public void createNewStudent(@RequestBody Student student){
+		studentService.createNewStudent(student);
+	}
 }
