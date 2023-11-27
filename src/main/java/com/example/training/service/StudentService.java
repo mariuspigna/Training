@@ -1,6 +1,6 @@
 package com.example.training.service;
 
-import com.example.training.StudentUtil;
+import com.example.training.util.StudentUtil;
 import com.example.training.dto.StudentDTO;
 import com.example.training.dto.StudentDTOMapper;
 import com.example.training.model.Student;
@@ -41,15 +41,6 @@ public class StudentService {
 	public void delStudentById(Long studentId) {
 		Student student = studentUtil.checkStudentExist(studentId);
 		studentRepository.deleteById(student.getId());
-	}
-
-	public void createNewStudent(Student student) throws IllegalStateException{
-		Boolean existsEmail = studentRepository.selectExistsEmail(student.getEmail());
-		if(existsEmail){
-			throw new IllegalStateException("Email %s is not uniq".formatted(student.getEmail()));
-		}
-
-		studentRepository.save(student);
 	}
 
 	@Transactional

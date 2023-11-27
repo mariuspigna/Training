@@ -1,4 +1,4 @@
-package com.example.training;
+package com.example.training.util;
 
 import com.example.training.model.Student;
 import com.example.training.repository.StudentRepository;

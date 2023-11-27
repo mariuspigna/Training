@@ -58,12 +58,12 @@ public class Student implements UserDetails {
 	private LocalDate dob;
 
 	public Student(@NonNull String firstname, @NonNull String lastname,
-				   @NonNull String email, @NonNull String password, @NonNull LocalDate dob) {
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.email = email;
-		this.password = password;
-		this.dob = dob;
+				   @NonNull String email    , @NonNull String password, @NonNull LocalDate dob) {
+		this.firstname	= firstname;
+		this.lastname 	= lastname;
+		this.email		= email;
+		this.password	= password;
+		this.dob 		= dob;
 	}
 
 
